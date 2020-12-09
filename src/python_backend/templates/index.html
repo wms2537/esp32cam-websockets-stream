@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>ESP32CAM Video Surveillance</title>
+  </head>
+  <body>
+    <h1>ESP32CAM Video Surveillance</h1>
+    <ul>
+      {% for deviceId in deviceIds %}
+        <h2>{{ deviceId }}</h2>
+        <img src="{{url + deviceId}}">
+      {% end %}
+    </ul>
+  </body>
+</html>
