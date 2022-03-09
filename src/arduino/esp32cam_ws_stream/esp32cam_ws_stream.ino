@@ -33,6 +33,7 @@ char * url = "websockets url";
 camera_fb_t * fb = NULL;
 size_t _jpg_buf_len = 0;
 uint8_t * _jpg_buf = NULL;
+uint8_t state = 0;
 
 using namespace websockets;
 WebsocketsClient client;
@@ -134,7 +135,7 @@ void loop() {
     if (!fb) {
       Serial.println("Camera capture failed");
       esp_camera_fb_return(fb);
-      break;
+      ESP.restart();
     }
     client.sendBinary((const char*) fb->buf, fb->len);
     Serial.println("MJPG sent");
