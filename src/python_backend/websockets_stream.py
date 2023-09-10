@@ -63,6 +63,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def check_origin(self, origin):
         return True
+    
 
 class StreamHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
@@ -90,7 +91,16 @@ class StreamHandler(tornado.web.RequestHandler):
             self.write("Content-type: image/jpeg\r\n")
             self.write("Content-length: %s\r\n\r\n" % len(jpgData))
             self.write(jpgData)
-            yield tornado.gen.Task(self.flush)
+            yield self.flush()
+
+class ButtonHandler(tornado.web.RequestHandler):
+    def post(self):
+        data = self.get_argument("data")
+        for client in connectedDevices:
+            client.write_message(data)
+
+    def get(self):
+        self.write("This is a POST-only endpoint.")
 
 
 class TemplateHandler(tornado.web.RequestHandler):
@@ -103,6 +113,7 @@ class TemplateHandler(tornado.web.RequestHandler):
 application = tornado.web.Application([
     (r'/video_feed/([^/]+)', StreamHandler),
     (r'/ws', WSHandler),
+    (r'/button', ButtonHandler),
     (r'/', TemplateHandler),
 ])
 
