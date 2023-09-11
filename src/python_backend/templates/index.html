@@ -3,12 +3,65 @@
     <title>ESP32CAM Video Surveillance</title>
   </head>
   <body>
-    <h1>ESP32CAM Video Surveillance</h1>
+    <h1>WebSocket Buttons</h1>
+    <button id="upButton">Up</button>
+    <button id="downButton">Down</button>
+    <button id="leftButton">Left</button>
+    <button id="rightButton">Right</button>
+    <button id="extraButton1">Extra 1</button>
+    <button id="extraButton2">Extra 2</button>
+    <button id="extraButton3">Extra 3</button>
+    <button id="extraButton4">Extra 4</button>
     <ul>
       {% for deviceId in deviceIds %}
         <h2>{{ deviceId }}</h2>
         <img src="{{url + deviceId}}">
       {% end %}
     </ul>
+    <script>
+      function sendButtonData(data) {
+          fetch('/button', {
+              method: 'POST',
+              body: 'data=' + encodeURIComponent(data),
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+          });
+      }
+
+      document.getElementById("upButton").addEventListener("click", function () {
+          sendButtonData("Up button clicked");
+      });
+
+      document.getElementById("downButton").addEventListener("click", function () {
+          sendButtonData("Down button clicked");
+      });
+
+      document.getElementById("leftButton").addEventListener("click", function () {
+          sendButtonData("Left button clicked");
+      });
+
+      document.getElementById("rightButton").addEventListener("click", function () {
+          sendButtonData("Right button clicked");
+      });
+
+      document.getElementById("extraButton1").addEventListener("click", function () {
+          sendButtonData("Extra button 1 clicked");
+      });
+
+      document.getElementById("extraButton2").addEventListener("click", function () {
+          sendButtonData("Extra button 2 clicked");
+      });
+
+      document.getElementById("extraButton3").addEventListener("click", function () {
+          sendButtonData("Extra button 3 clicked");
+      });
+
+      document.getElementById("extraButton4").addEventListener("click", function () {
+          sendButtonData("Extra button 4 clicked");
+      });
+  </script>
+
+
   </body>
 </html>
